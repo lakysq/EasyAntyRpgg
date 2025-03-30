@@ -1,8 +1,12 @@
-local lp = game.Players.LocalPlayer.Name
+local lpn = game.Players.LocalPlayer.Name
+local lp = game.Players.LocalPlayer
 White = false
-local WhiteList = {'tvinkpizdtogotipa','alyerhelper3001','nazarkusalt3'}
+local WhiteList = {'alyerhelper3001','nazarkusalt3'}
 for index = 1, #WhiteList do
-	if WhiteList[index] == lp then
-		White = true
-	end
+    if WhiteList[index] == lp then
+        White = true
+        print("succefuly inject")
+    else 
+        lp:Kick("You don't in WhiteList")
+    end
 end
