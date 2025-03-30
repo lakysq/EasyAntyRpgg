@@ -1,10 +1,10 @@
-local lp = game.Players.LocalPlayer
-local WhitrList = {}
-table.insert(WhiteList, alyerhelper3001)
-Check = false
-for i = 1, #WhiteList do
-  if WhiteList[i] == lp then
-    Check = true
-  end
+local lp = game.Players.LocalPlayer.Name
+White = false
+local WhiteList = {'alyerhelper3001'}
+for index = 1, #WhiteList do
+	if WhiteList[index] == lp then
+		White = true
+	else
+		print('ощибка в сравнении или нет в вайт листе')
+	end
 end
-print('gotovo')
