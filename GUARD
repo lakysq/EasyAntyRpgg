@@ -1,6 +1,6 @@
 local lp = game.Players.LocalPlayer
 local WhitrList = {}
-table.incert(WhiteList, alyerhelper3001)
+table.insert(WhiteList, alyerhelper3001)
 Check = false
 for i = 1, #WhiteList do
   if WhiteList[i] == lp then
