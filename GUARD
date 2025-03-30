@@ -5,10 +5,10 @@ local WhiteList = {'nazarkusalt3','alyerhelper3001'}
 for index = 1, #WhiteList do
     if WhiteList[index] == lpn then
         White = true
+	end
 end
 if White then
     print("succefuly inject")
 else 
     lp:Kick("You don't in WhiteList")
-end
 end
