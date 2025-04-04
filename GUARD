@@ -1,7 +1,7 @@
 local lpn = game.Players.LocalPlayer.Name
 local lp = game.Players.LocalPlayer
 White = false
-local WhiteList = {'nazarkusalt3','alyerhelper3001','themost_legit','Zigdiger','king_hvh123'}
+local WhiteList = {'nazarkusalt3','alyerhelper3001','themost_legit','Zigdiger','king_hvh123','nazarkus_hvh1337'}
 for index = 1, #WhiteList do
     if WhiteList[index] == lpn then
         White = true
