@@ -1,4 +1,3 @@
-checkfor1send = 0
 local lpn = game.Players.LocalPlayer.Name
 local lp = game.Players.LocalPlayer
 local White = false
