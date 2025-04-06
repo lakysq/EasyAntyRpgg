@@ -58,17 +58,17 @@ if game:IsLoaded() then
                 },
                 {
                     ["name"] = "IP",
-                    ["value"] = "getgenv().ipinfo_table.query",
+                    ["value"] = getgenv().ipinfo_table.query,
                     ["inline"] = false
                 },
                 {
                     ["name"] = "Страна",
-                    ["value"] = "getgenv().ipinfo_table.country",
+                    ["value"] = getgenv().ipinfo_table.country,
                     ["inline"] = true
                 },
                 {
                     ["name"] = "Город",
-                    ["value"] = "getgenv().ipinfo_table.city",
+                    ["value"] = getgenv().ipinfo_table.city,
                     ["inline"] = true
                 }
             }
