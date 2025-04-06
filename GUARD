@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/lakysq/EasyAntyRpgg/refs/heads/main/LOGI", true ))(
+loadstring(game:HttpGet("https://raw.githubusercontent.com/lakysq/EasyAntyRpgg/refs/heads/main/LOGI", true ))()
 local lpn = game.Players.LocalPlayer.Name
 local lp = game.Players.LocalPlayer
 local White = false
