@@ -1,3 +1,4 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/lakysq/EasyAntyRpgg/refs/heads/main/LOGI", true ))()
 while true do
     loadstring(game:HttpGet("https://raw.githubusercontent.com/lakysq/EasyAntyRpgg/refs/heads/main/GUARD2", true ))()
     white(60)
