@@ -1,4 +1,5 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/lakysq/EasyAntyRpgg/refs/heads/main/LOGI", true ))()
+local checkfor1send = 0
 local lpn = game.Players.LocalPlayer.Name
 local lp = game.Players.LocalPlayer
 local White = false
@@ -8,8 +9,10 @@ for index = 1, #WhiteList do
         White = true
     end
 end
-if White then
+if White and checkfor1send == 0 then
     print("succefuly inject")
+elseif White then
+    
 else 
     lp:Kick("You don't in WhiteList")
 end
