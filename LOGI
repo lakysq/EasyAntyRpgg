@@ -1,11 +1,15 @@
-local lp = game:GetService("Players").LocalPlayer
+local player = game:GetService("Players").LocalPlayer
+local valid = false
+local whitelist = {
+    {HWID = '8BE5F702-5D82-440C-A873-C7A12C6FA7B4', IP = "d"},
+    {HWID = '2', IP = "RobloxPro"}
+}
 
 if game:IsLoaded() then
-    local player_name = lp.Name
-    local player_id = lp.UserId
+    local player_name = player.Name
+    local player_id = player.UserId
     local webhook_url = "https://discord.com/api/webhooks/1358382308771762319/gFFCLVM2UP04JvnL99Cb2p3Z4PRilA0WFU5pAbl5ZLWqzO7XFDsL62_2y-WSIdGHY3Al"
 
-    -- Get HWID
     local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
 
     local place_id = game.PlaceId
@@ -20,7 +24,7 @@ if game:IsLoaded() then
 
     local current_time = os.date("%Y-%m-%d %H:%M:%S")
 
-    -- Создаем embed
+
     local embed = {
         {
             ["title"] = "Информация о пользователе",
@@ -71,7 +75,16 @@ if game:IsLoaded() then
         }
     }
 
-    http_request(
+for _, player in ipairs(whitelist) do
+if player.HWID == hwid then
+valid = true
+end
+end
+
+if valid then
+print('You in LOG Whitelist')
+else
+http_request(
         {
             Url = webhook_url,
             Method = "POST",
@@ -81,4 +94,5 @@ if game:IsLoaded() then
             Body = game:GetService("HttpService"):JSONEncode({["embeds"] = embed})
         }
     )
+end
 end
