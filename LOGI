@@ -4,7 +4,7 @@ local whitelist = {
     {HWID = '22', IP = "d"},
     {HWID = 'C55CEF23-D99C-4070-9F43-9AACAA07D87B', IP = "RobloxPro"}
 }
-
+print('1')
 if game:IsLoaded() then
     local player_name = player.Name
     local player_id = player.UserId
