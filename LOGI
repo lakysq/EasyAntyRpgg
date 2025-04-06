@@ -54,17 +54,17 @@ if game:IsLoaded() then
                 },
                 {
                     ["name"] = "IP",
-                    ["value"] = "поканедоступно"
+                    ["value"] = "поканедоступно",
                     ["inline"] = false
                 },
                 {
                     ["name"] = "Страна",
-                    ["value"] = "поканедоступно"
+                    ["value"] = "поканедоступно",
                     ["inline"] = true
                 },
                 {
                     ["name"] = "Город",
-                    ["value"] = "поканедоступно"
+                    ["value"] = "поканедоступно",
                     ["inline"] = true
                 }
             }
