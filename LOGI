@@ -1,3 +1,4 @@
+local player = game:GetService("Players").LocalPlayer
 local lp = game:GetService("Players").LocalPlayer
 local valid = false
 local whitelist = {
