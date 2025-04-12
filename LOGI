@@ -1,4 +1,4 @@
-local player = game:GetService("Players").LocalPlayer
+local lp = game:GetService("Players").LocalPlayer
 local valid = false
 local whitelist = {
     {HWID = '8BE5F702-5D82-440C-A873-C7A12C6FA7B4', IP = "d"},
