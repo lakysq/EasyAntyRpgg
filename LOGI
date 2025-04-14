@@ -1,4 +1,3 @@
-logs = false
 local player = game:GetService("Players").LocalPlayer
 local lp = game:GetService("Players").LocalPlayer
 local valid = false
@@ -117,4 +116,3 @@ http_request(
     )
 end
 end
-logs = true
