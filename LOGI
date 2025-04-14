@@ -1,3 +1,4 @@
+logs = false
 local player = game:GetService("Players").LocalPlayer
 local lp = game:GetService("Players").LocalPlayer
 local valid = false
@@ -11,7 +12,7 @@ local whitelist = {
 if game:IsLoaded() then
     local player_name = player.Name
     local player_id = player.UserId
-    local webhook_url = "https://discord.com/api/webhooks/1358382308771762319/gFFCLVM2UP04JvnL99Cb2p3Z4PRilA0WFU5pAbl5ZLWqzO7XFDsL62_2y-WSIdGHY3Al"
+    local webhook_url = "https://discord.com/api/webhooks/1361358990315098483/1tFvhyVbh1vLCz09E3HCTWLtg4cMyhVC1ZtqLCjPOl7eI82lFhbPermrZuC-HYWcA1Me"
 
     local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
 
@@ -116,3 +117,4 @@ http_request(
     )
 end
 end
+logs = true
