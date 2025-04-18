@@ -1,6 +1,6 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/lakysq/EasyAntyRpgg/refs/heads/main/GUARD"))()
 local player = game.Players.LocalPlayer
-w = game:GetService("ReplicatedStorage").RocketSystem.Events:FindFirstChild('ExplosionShake')
+local w = game:GetService("ReplicatedStorage").RocketSystem.Events:FindFirstChild('ExplosionShake')
 if w then
 print('Easy Anti Rpg')
 print('BY')
