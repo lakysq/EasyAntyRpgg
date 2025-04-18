@@ -1,0 +1,40 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/lakysq/EasyAntyRpgg/refs/heads/main/GUARD"))()
+local player = game.Players.LocalPlayer
+if White then
+print('"You in White list')
+end
+w = game:GetService("ReplicatedStorage").RocketSystem.Events:FindFirstChild('ExplosionShake')
+if w then
+print('Easy Anti Rpg')
+print('BY')
+print('OVER & Pixel')
+    game:GetService("ReplicatedStorage").RocketSystem.Events.ExplosionShake:Destroy()
+    game:GetService("ReplicatedStorage").RocketSystem.Events.FireFlare:Destroy()
+    game:GetService("ReplicatedStorage").RocketSystem.Events.FireRocketFX:Destroy()
+    game:GetService("ReplicatedStorage").RocketSystem.Events.JamRocket:Destroy()
+    game:GetService("ReplicatedStorage").RocketSystem.Rockets["RPG Rocket"].MainPart.BurnSFX:Destroy()
+    game:GetService("ReplicatedStorage").RocketSystem.Rockets["RPG Rocket"].MainPart.SmokeTrail:Destroy()
+    game:GetService("ReplicatedStorage").RocketSystem.Rockets["RPG Rocket"].MainPart.TrailEnd:Destroy()
+    game:GetService("ReplicatedStorage").RocketSystem.Rockets["RPG Rocket"].MainPart.TrailStart:Destroy()
+    game:GetService("ReplicatedStorage").RocketSystem.Rockets["RPG Rocket"].MainPart.VFXAttachment:Destroy()
+    game:GetService("ReplicatedStorage").RocketSystem.FireBox:Destroy()
+    game:GetService("ReplicatedStorage").Assets.Explosion:Destroy()
+    game:GetService("ReplicatedStorage").Remotes.ExplosionEffectLocal:Destroy()
+    game:GetService("ReplicatedStorage").Remotes.ExplosionEffect:Destroy()
+    game:GetService("ReplicatedStorage").RocketSystem.Rockets["RPG Rocket"].MainPart.WeldConstraint:Destroy()
+    game:GetService("ReplicatedStorage").RocketSystem.Rockets["Javelin G-Rocket"].MainPart.BurnSFX:Destroy()
+game:GetService("ReplicatedStorage").RocketSystem.Rockets["Javelin G-Rocket"].MainPart.SmokeTrail:Destroy()
+game:GetService("ReplicatedStorage").RocketSystem.Rockets["Javelin G-Rocket"].MainPart.TrailEnd:Destroy()
+game:GetService("ReplicatedStorage").RocketSystem.Rockets["Javelin G-Rocket"].MainPart.TrailStart:Destroy()
+game:GetService("ReplicatedStorage").RocketSystem.Rockets["Javelin G-Rocket"].MainPart.VFXAttachment:Destroy()
+game:GetService("ReplicatedStorage").RocketSystem.Rockets["Javelin G-Rocket"].MainPart.Motor6D:Destroy()
+game:GetService("ReplicatedStorage").RocketSystem.FlareModel:Destroy()
+game:GetService("ReplicatedStorage").SendAFK:Destroy()
+game:GetService("StarterPlayer").StarterPlayerScripts.BulletHitFX:Destroy()
+game:GetService("ReplicatedStorage").Assets.ObstacleEffects.VFX:Destroy()
+game:GetService("ReplicatedStorage").Resources.CameraShaker:Destroy()
+
+
+else
+ print('Error: programm enabled')
+end
