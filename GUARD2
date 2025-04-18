@@ -1,12 +1,13 @@
 local lpn = game.Players.LocalPlayer.Name
 local lp = game.Players.LocalPlayer
+local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
 local White = true
-local BlockList = {"aboba9821"}
+local WhiteList = {"aboba9821"}
 for index = 1, #WhiteList do
-    if WhiteList[index] == lpn then
+    if WhiteList[index] == hwid
         White = false
     end
 end
 if not White then
-    lp:Kick("You in blocklist, lol")
+    lp:Kick("you are not on the whitelist")
 end
