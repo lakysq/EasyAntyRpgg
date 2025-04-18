@@ -1,4 +1,4 @@
-local lpn = game.Players.LocalPlayer.Name
+
 local lp = game.Players.LocalPlayer
 local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
 local White = true
