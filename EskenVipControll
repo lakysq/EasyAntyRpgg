@@ -1,0 +1,8 @@
+local aktive = true
+if aktive then
+  print(Esken Aktiven)
+else
+  while true do
+    print('Esken not aktived')
+  end
+end
