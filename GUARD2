@@ -10,7 +10,7 @@ local WhiteList = {
 }
 for index = 1, #WhiteList do
     if WhiteList[index] == hwid
-        White = false
+        White = true
     end
 end
 if not White then
