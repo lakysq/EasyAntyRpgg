@@ -2,7 +2,9 @@
 local lp = game.Players.LocalPlayer
 local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
 local White = true
-local WhiteList = {"aboba9821"}
+local WhiteList = {
+"aboba9821" -- player 1
+}
 for index = 1, #WhiteList do
     if WhiteList[index] == hwid
         White = false
