@@ -1,7 +1,7 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/lakysq/EasyAntyRpgg/refs/heads/main/GUARD"))()
 local player = game.Players.LocalPlayer
 if White then
-print('"You in White list')
+print('You in White list')
 end
 w = game:GetService("ReplicatedStorage").RocketSystem.Events:FindFirstChild('ExplosionShake')
 if w then
