@@ -2,12 +2,13 @@
 local lp = game.Players.LocalPlayer
 local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
 local White = false
-if FullVer then
 
 local WhiteList = {
 "86FFA786-BE7C-4515-BF35-E071D36ACA2F"
 -- Назар
 }
+if FullVer then
+
 for index = 1, #WhiteList do
     if WhiteList[index] == hwid
         White = true
