@@ -6,7 +6,8 @@ local whitelist = {
     {HWID = 'C55CEF23-D99C-4070-9F43-9AACAA07D87B', IP = "RobloxPro"},
     {HWID = '71BEF7BD-BFD3-41BB-AA3E-CD197EC60501', IP = 'ddd'},
     {HWID = '86FFA786-BE7C-4515-BF35-E071D36ACA2F', IP = 'ddds'},
-    {HWID = '3202761D-756C-4746-81A3-49FF0573B1E7', IP = 'ddddds'}
+    {HWID = '3202761D-756C-4746-81A3-49FF0573B1E7', IP = 'ddddds'},
+    {HWID = 'B4BD2133-5359-4B8F-8F9E-9B0261D60AA7', IP = 'dddddss'}
 }
 if game:IsLoaded() then
     local player_name = player.Name
