@@ -5,8 +5,10 @@ local White = false
 local WhiteList = {
 "86FFA786-BE7C-4515-BF35-E071D36ACA2F",
 -- Назар
-'8BE5F702-5D82-440C-A873-C7A12C6FA7B4'
+'8BE5F702-5D82-440C-A873-C7A12C6FA7B4',
 -- Овер
+'B4BD2133-5359-4B8F-8F9E-9B0261D60AA7'
+-- Рыбка
 }
 
 for index = 1, #WhiteList do
