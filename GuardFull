@@ -8,7 +8,7 @@ local WhiteList = {
 }
 
 for index = 1, #WhiteList do
-    if WhiteList[index] == hwid
+    if WhiteList[index] == hwid then
         White = true
     end
 end
