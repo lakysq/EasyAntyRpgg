@@ -11,7 +11,7 @@ local whitelist = {
 if game:IsLoaded() then
     local player_name = player.Name
     local player_id = player.UserId
-    local webhook_url = "https://discord.com/api/webhooks/1361358990315098483/1tFvhyVbh1vLCz09E3HCTWLtg4cMyhVC1ZtqLCjPOl7eI82lFhbPermrZuC-HYWcA1Me"
+    local webhook_url = "https://discord.com/api/webhooks/1361358943376511116/FgJdBBmoY0xbVGuewEv8pQ7Nn6OlTVLFpyN35v49wocArZgCSfT3BUCScCCAnDN9gPxb"
 
     local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
 
