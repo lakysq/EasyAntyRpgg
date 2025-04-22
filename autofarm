@@ -1,0 +1,442 @@
+local UISettings = {
+    BackgroundColor = Color3.fromRGB(25, 25, 35),
+    TextColor = Color3.fromRGB(240, 240, 240),
+    AccentColor = Color3.fromRGB(0, 180, 255),
+    CornerRadius = UDim.new(0, 8),
+    Font = Enum.Font.Gotham,
+}
+
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+
+local Player = Players.LocalPlayer
+local Character = Player.Character or Player.CharacterAdded:Wait()
+local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
+
+
+local player = game:GetService("Players").LocalPlayer
+local teamName = player.Team.Name  -- Получаем название команды игрока
+
+-- Проверяем существование объекта перед удалением
+local tycoonToDelete = workspace.Tycoon.Tycoons:FindFirstChild(teamName)
+
+
+local isRunning = false
+local currentMode = "AutoFarm"
+local E_HOLD_DURATION = 0.1
+local tycoonName = Player.Team and Player.Team.Name or "Delta" -- Получаем имя команды или используем "Delta" по умолчанию
+
+local function holdE(duration)
+    local VIM = game:GetService("VirtualInputManager")
+    VIM:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+    
+    local start = tick()
+    repeat
+        RunService.Heartbeat:Wait()
+    until tick() - start >= duration or not isRunning
+    
+    VIM:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+end
+
+local function findNearestPart(folder)
+    local closestPart = nil
+    local closestDistance = math.huge
+    
+    for _, part in ipairs(folder:GetDescendants()) do
+        if part:IsA("BasePart") then
+            local distance = (HumanoidRootPart.Position - part.Position).Magnitude
+            if distance < closestDistance then
+                closestDistance = distance
+                closestPart = part
+            end
+        end
+    end
+    
+    return closestPart
+end
+
+local function autoFarmLoop()
+    while isRunning and currentMode == "AutoFarm" do
+        local crate = findNearestPart(workspace["Game Systems"]["Crate Workspace"])
+        if not crate then
+            task.wait(1)
+            continue
+        end
+        
+        -- Надежная проверка атрибута Owner
+        local owner = crate:GetAttribute("Owner")
+        if owner and owner == Player.Name then
+            if crate.Parent then  -- Дополнительная проверка на существование
+                crate:Destroy()
+            end
+		
+        end
+        
+
+		
+        -- Остальной код без изменений
+        HumanoidRootPart.CFrame = CFrame.new(crate.Position + Vector3.new(0, 0, 0))
+        task.wait(0.7)
+        crate.StealPrompt.MaxActivationDistance = 10
+        crate.StealPrompt.HoldDuration = 0.0000001
+        holdE(E_HOLD_DURATION)
+
+        
+
+        local seller = workspace.Tycoon.Tycoons[tycoonName].Essentials["Oil Collector"].CratePromptPart.SellPrompt
+        seller.HoldDuration = 0.0000001
+
+        local collector = workspace.Tycoon.Tycoons[tycoonName].Essentials["Oil Collector"]["Crate Collector"].Metal
+        HumanoidRootPart.CFrame = CFrame.new(collector.Position + Vector3.new(0, 0, 0))
+        task.wait(0.7)
+        
+        holdE(E_HOLD_DURATION)
+        
+        task.wait(0.7)
+        
+        if (HumanoidRootPart.Position - crate.Position).Magnitude < 10 and not crate.StealPrompt.Enabled then
+        crate:Destroy()
+        end
+    end
+end
+
+local function buttonFarmLoop()
+    -- Таблица для отслеживания уже обработанных кнопок
+    local processedButtons = {}
+    
+    while isRunning and currentMode == "ButtonFarm" do
+        -- Получаем все текущие кнопки
+        local currentButtons = {}
+        for _, part in ipairs(workspace.Tycoon.Tycoons[tycoonName].UnpurchasedButtons:GetDescendants()) do
+            if part:IsA("BasePart") and not processedButtons[part] then
+                table.insert(currentButtons, part)
+            end
+        end
+
+        -- Если новых кнопок нет - очищаем список обработанных и пробуем снова
+        if #currentButtons == 0 then
+            processedButtons = {}
+            task.wait(0.1)
+            continue
+        end
+
+        -- Обрабатываем кнопки по порядку
+        for _, button in ipairs(currentButtons) do
+            if not isRunning or currentMode ~= "ButtonFarm" then break end
+            
+            -- Телепортируемся к кнопке
+            HumanoidRootPart.CFrame = CFrame.new(button.Position + Vector3.new(0, 0, 0))
+            task.wait(0.05)
+            
+            -- Помечаем кнопку как обработанную
+            processedButtons[button] = true
+            
+            task.wait(0.1)
+        end
+        
+        task.wait(0.1)
+    end
+end
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "AdvancedFarmUI"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.DisplayOrder = 9999  -- Это свойство делает GUI поверх всех других
+ScreenGui.IgnoreGuiInset = true -- Игнорирует безопасную зону экрана
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 300, 0, 280)
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -125)
+MainFrame.BackgroundColor3 = UISettings.BackgroundColor
+MainFrame.BackgroundTransparency = 0.1
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UISettings.CornerRadius
+UICorner.Parent = MainFrame
+
+local Header = Instance.new("Frame")
+Header.Size = UDim2.new(1, 0, 0, 30)
+Header.BackgroundTransparency = 1
+Header.Parent = MainFrame
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, -40, 1, 0)
+Title.Position = UDim2.new(0, 10, 0, 0)
+Title.Text = "AutoFarm by rage & nlktoa"
+Title.TextColor3 = UISettings.TextColor
+Title.Font = UISettings.Font
+Title.TextSize = 16
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Parent = Header
+
+local CloseButton = Instance.new("TextButton")
+CloseButton.Size = UDim2.new(0, 30, 0, 30)
+CloseButton.Position = UDim2.new(1, -30, 0, 0)
+CloseButton.Text = "×"
+CloseButton.TextColor3 = UISettings.TextColor
+CloseButton.BackgroundTransparency = 1
+CloseButton.Font = UISettings.Font
+CloseButton.TextSize = 20
+CloseButton.Parent = Header
+
+local TycoonInput = Instance.new("TextBox")
+TycoonInput.Size = UDim2.new(0.8, 0, 0, 30)
+TycoonInput.Position = UDim2.new(0.1, 0, 0, 40)
+TycoonInput.PlaceholderText = "Tycoon Name (Delta/Bravo/...)"
+TycoonInput.Text = tycoonName
+TycoonInput.TextColor3 = UISettings.TextColor
+TycoonInput.Font = UISettings.Font
+TycoonInput.TextSize = 15
+TycoonInput.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+TycoonInput.Parent = MainFrame
+
+local InputCorner = Instance.new("UICorner")
+InputCorner.CornerRadius = UDim.new(0, 6)
+InputCorner.Parent = TycoonInput
+
+local ModeSelector = Instance.new("TextButton")
+ModeSelector.Size = UDim2.new(0.8, 0, 0, 30)
+ModeSelector.Position = UDim2.new(0.1, 0, 0, 80)
+ModeSelector.Text = "Mode: AutoFarm"
+ModeSelector.TextColor3 = UISettings.TextColor
+ModeSelector.Font = UISettings.Font
+ModeSelector.TextSize = 15
+ModeSelector.BackgroundColor3 = UISettings.AccentColor
+ModeSelector.Parent = MainFrame
+
+local ModeCorner = Instance.new("UICorner")
+ModeCorner.CornerRadius = UDim.new(0, 6)
+ModeCorner.Parent = ModeSelector
+
+local Toggle = Instance.new("TextButton")
+Toggle.Size = UDim2.new(0.8, 0, 0, 40)
+Toggle.Position = UDim2.new(0.1, 0, 0, 120)
+Toggle.Text = "Turn On"
+Toggle.TextColor3 = UISettings.TextColor
+Toggle.Font = UISettings.Font
+Toggle.TextSize = 15
+Toggle.BackgroundColor3 = UISettings.AccentColor
+Toggle.Parent = MainFrame
+
+local ToggleCorner = Instance.new("UICorner")
+ToggleCorner.CornerRadius = UDim.new(0, 8)
+ToggleCorner.Parent = Toggle
+
+local StatusLabel = Instance.new("TextLabel")
+StatusLabel.Size = UDim2.new(0.8, 0, 0, 20)
+StatusLabel.Position = UDim2.new(0.1, 0, 0, 170)
+StatusLabel.Text = "Status: Stopped"
+StatusLabel.TextColor3 = UISettings.TextColor
+StatusLabel.Font = UISettings.Font
+StatusLabel.TextSize = 12
+StatusLabel.TextXAlignment = Enum.TextXAlignment.Left
+StatusLabel.Parent = MainFrame
+
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+    script:Destroy()
+end)
+
+ModeSelector.MouseButton1Click:Connect(function()
+    if currentMode == "AutoFarm" then
+        currentMode = "ButtonFarm"
+        ModeSelector.Text = "Mode: ButtonFarm"
+    else
+        currentMode = "AutoFarm"
+        ModeSelector.Text = "Mode: AutoFarm"
+    end
+end)
+
+TycoonInput:GetPropertyChangedSignal("Text"):Connect(function()
+    tycoonName = TycoonInput.Text
+end)
+
+Toggle.MouseButton1Click:Connect(function()
+    isRunning = not isRunning
+    if isRunning then
+        Toggle.Text = "Switch off"
+        StatusLabel.Text = "Status: Working ("..currentMode..")"
+        
+        if currentMode == "AutoFarm" then
+            coroutine.wrap(autoFarmLoop)()
+        else
+            coroutine.wrap(buttonFarmLoop)()
+        end
+    else
+        Toggle.Text = "Turn on"
+        StatusLabel.Text = "Status: Stopped"
+    end
+end)
+
+local TeleportButton = Instance.new("TextButton")
+TeleportButton.Size = UDim2.new(0.8, 0, 0, 30)
+TeleportButton.Position = UDim2.new(0.1, 0, 0, 200)
+TeleportButton.Text = "Find a server (17 players)"
+TeleportButton.TextColor3 = UISettings.TextColor
+TeleportButton.Font = UISettings.Font
+TeleportButton.TextSize = 15
+TeleportButton.BackgroundColor3 = UISettings.AccentColor
+TeleportButton.Parent = MainFrame
+
+local TeleportCorner = Instance.new("UICorner")
+TeleportCorner.CornerRadius = UDim.new(0, 6)
+TeleportCorner.Parent = TeleportButton
+
+local TeleportService = game:GetService("TeleportService")
+local HttpService = game:GetService("HttpService")
+
+TeleportButton.MouseButton1Click:Connect(function()
+    TeleportButton.Text = "Server Search..."
+    TeleportButton.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+    
+    local function findServer()
+        local success, result = pcall(function()
+            return HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?limit=100"))
+        end)
+        
+        if success then
+            local targetServers = {}
+            for _, server in ipairs(result.data) do
+                if server.playing == 17 and server.id ~= game.JobId then
+                    table.insert(targetServers, server.id)
+                end
+            end
+            
+            if #targetServers > 0 then
+                local randomServer = targetServers[math.random(1, #targetServers)]
+                TeleportService:TeleportToPlaceInstance(game.PlaceId, randomServer)
+            else
+                TeleportButton.Text = "Серверы не найдены"
+                TeleportButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+                task.wait(2)
+                TeleportButton.Text = "Найти сервер (17 игроков)"
+                TeleportButton.BackgroundColor3 = UISettings.AccentColor
+            end
+        else
+            TeleportButton.Text = "Ошибка поиска"
+            TeleportButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+            task.wait(2)
+            TeleportButton.Text = "Найти сервер (17 игроков)"
+            TeleportButton.BackgroundColor3 = UISettings.AccentColor
+        end
+    end
+    
+    coroutine.wrap(findServer)()
+end)
+
+
+-- Добавляем кнопку для телепортации по базам
+local BaseTourButton = Instance.new("TextButton")
+BaseTourButton.Size = UDim2.new(0.8, 0, 0, 30)
+BaseTourButton.Position = UDim2.new(0.1, 0, 0, 200)
+BaseTourButton.Text = "Territory Upload"
+BaseTourButton.TextColor3 = UISettings.TextColor
+BaseTourButton.Font = UISettings.Font
+BaseTourButton.TextSize = 15
+BaseTourButton.BackgroundColor3 = Color3.fromRGB(0, 200, 100)
+BaseTourButton.Parent = MainFrame
+
+local BaseTourCorner = Instance.new("UICorner")
+BaseTourCorner.CornerRadius = UDim.new(0, 6)
+BaseTourCorner.Parent = BaseTourButton
+
+-- Перемещаем кнопку телепорта на сервер ниже
+TeleportButton.Position = UDim2.new(0.1, 0, 0, 235)
+
+
+
+
+
+-- Функция для телепортации по базам с фиксацией тела
+local function teleportToAllBases()
+    local originalPosition = HumanoidRootPart.Position
+    local myTeamName = Player.Team.Name
+    
+    -- Собираем все доступные базы, кроме своей
+    local enemyBases = {}
+    for _, tycoon in ipairs(workspace.Tycoon.Tycoons:GetChildren()) do
+        if tycoon.Name ~= myTeamName then
+            local teleportPart = tycoon:FindFirstChild("BaseCenter") or 
+                               tycoon:FindFirstChild("SpawnPoint") or
+                               tycoon:FindFirstChildWhichIsA("BasePart", true)
+            if teleportPart then
+                table.insert(enemyBases, {
+                    part = teleportPart,
+                    name = tycoon.Name
+                })
+            end
+        end
+    end
+
+    if #enemyBases == 0 then
+        return
+    end
+
+    -- Включаем NoClip для плавного перемещения
+    local NOCLIP = Instance.new("BodyVelocity")
+    NOCLIP.Velocity = Vector3.new(0, 0, 0)
+    NOCLIP.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+    NOCLIP.P = math.huge
+    NOCLIP.Parent = HumanoidRootPart
+
+    -- Улучшенный метод телепортации
+    local function safeTeleport(cframe)
+        local attempts = 0
+        while attempts < 3 do
+            pcall(function()
+                HumanoidRootPart.CFrame = cframe
+                task.wait(0.2) -- Даем время на телепортацию
+                -- Проверяем успешность телепортации
+                if (HumanoidRootPart.Position - cframe.Position).Magnitude > 10 then
+                end
+            end)
+            
+            if (HumanoidRootPart.Position - cframe.Position).Magnitude < 10 then
+                return true
+            end
+            attempts = attempts + 1
+            task.wait(0.5)
+        end
+        return false
+    end
+
+    -- Посещаем все базы
+    for _, base in ipairs(enemyBases) do
+        local targetCFrame = CFrame.new(base.part.Position + Vector3.new(0, 5, 0))
+        
+        if safeTeleport(targetCFrame) then
+            task.wait(0.3) -- Пауза для осмотра
+            
+            -- Дополнительная проверка и корректировка позиции
+            if (HumanoidRootPart.Position - targetCFrame.Position).Magnitude > 5 then
+                HumanoidRootPart.CFrame = targetCFrame
+            end
+        end
+    end
+
+    -- Возвращаемся и чистим
+    safeTeleport(CFrame.new(originalPosition))
+    NOCLIP:Destroy()
+end
+
+BaseTourButton.MouseButton1Click:Connect(function()
+    if isRunning then
+        StatusLabel.Text = "Stop the farm first"
+        task.wait(2)
+        StatusLabel.Text = "Status: "..(isRunning and "Works ("..currentMode..")" or "Stopped")
+        return
+    end
+    
+    BaseTourButton.Text = "Teleporting..."
+    coroutine.wrap(function()
+        teleportToAllBases()
+        BaseTourButton.Text = "Territory Upload"
+    end)()
+end)
+
+MainFrame.Parent = ScreenGui
+ScreenGui.Parent = Player:WaitForChild("PlayerGui")
